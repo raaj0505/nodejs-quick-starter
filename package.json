@@ -1,11 +1,12 @@
 {
-  "name": "ffmpeg-integration",
+  "name": "nodejs-quick-starter",
   "version": "1.0.0",
   "description": "node js quick starter",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsc -p && nodemon --watch dist/index.js",
-    "build": "tsc -p"
+    "start": "node dist/index.js",
+    "dev": "npx tsc && nodemon --watch dist/index.js",
+    "build": "npx tsc -p ./",
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +16,7 @@
     "@types/app-root-path": "^1.2.4",
     "@types/express": "^4.17.6",
     "tslint": "^6.1.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.2"
   },
   "dependencies": {
     "-": "0.0.1",
