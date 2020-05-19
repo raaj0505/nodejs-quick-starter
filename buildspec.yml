@@ -1,21 +1,18 @@
 version: 0.2
-env:
- variables:
-  BUILD_DIR: "dist"
-  S3_BUCKET: "staging-code-build"
+
 phases:
- install:
-  runtime-versions:
-   nodejs: 12.16.3
-  commands:
-   - git checkout master
-   - npm i
-build:
-  commands:
-   - npm run test
-   - npm run build
-   - pip3 install awscli --upgrade --user
-   - aws s3 sync $BUILD_DIR s3://$S3_BUCKET --acl public-read
-post_build:
-  commands:
-   SUCCESS=$CODEBUILD_BUILD_SUCCEEDING node ./bin/notify.js
+  install:
+    runtime-versions:
+      nodejs: 12.16.3
+  pre_build:
+    commands:
+      - echo Nothing to do in the pre_build phase...
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm run test
+      - npm run build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - SUCCESS=$CODEBUILD_BUILD_SUCCEEDING node ./bin/notify.js
