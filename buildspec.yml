@@ -1,0 +1,24 @@
+version: 0.2
+env:
+ variables:
+  BUILD_DIR: "dist"
+  S3_BUCKET: "staging-code-build"
+ parameter-store:
+  AWS_ACCESS_KEY_ID: "/codebuild/key-id"
+  AWS_SECRET_ACCESS_KEY: "/codebuild/key-secret"
+phases:
+ install:
+  runtime-versions:
+   nodejs: 12.16.3
+  commands:
+   - git checkout master
+   - npm i
+build:
+  commands:
+   - npm run test
+   - npm run build
+   - pip3 install awscli --upgrade --user
+   - aws s3 sync $BUILD_DIR s3://$S3_BUCKET --acl public-read
+post_build:
+  commands:
+   SUCCESS=$CODEBUILD_BUILD_SUCCEEDING node ./bin/notify.js
